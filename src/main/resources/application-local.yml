@@ -1,0 +1,28 @@
+# Local/dev profile - in-memory H2, zero external setup. This is what a
+# reviewer or a developer running the service on their own machine gets,
+# either by leaving spring.profiles.active unset (see application.yml's
+# default) or by activating "local" explicitly.
+spring:
+  datasource:
+    url: jdbc:h2:mem:claimsdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# Dummy shared secret used to verify the signature on inbound payment
+# webhooks. Fine to keep in plain text here since this is local/H2 only -
+# see application-prod.yml for how this is sourced in a real deployment.
+claims:
+  payment:
+    webhook-secret: "dummy-shared-secret-change-me"

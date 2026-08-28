@@ -1,0 +1,380 @@
+<mxfile host="app.diagrams.net" pages="4">
+  <diagram id="landscape" name="1 - System Context">
+    <mxGraphModel dx="991" dy="723" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1_lbl_before" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#8A9A92;align=left;" value="BEFORE - nothing talks to anything" vertex="1">
+          <mxGeometry height="20" width="400" x="20" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_b_claimant" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;" value="Claimant" vertex="1">
+          <mxGeometry height="60" width="60" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_b_channel" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Channel System&lt;br&gt;(Web Form)" vertex="1">
+          <mxGeometry height="60" width="160" x="15" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_b_analyst" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;" value="Claims Analyst" vertex="1">
+          <mxGeometry height="60" width="60" x="380" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_b_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;fontStyle=1;arcSize=6;" value="Claims System&lt;br&gt;(UI / API)" vertex="1">
+          <mxGeometry height="80" width="200" x="300" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_b_clientreg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Client Registry System" vertex="1">
+          <mxGeometry height="50" width="180" x="600" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_b_policymgr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Policy Manager System" vertex="1">
+          <mxGeometry height="50" width="180" x="600" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_b_payment" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Payment System&lt;br&gt;(3rd party)" vertex="1">
+          <mxGeometry height="50" width="180" x="600" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_note_before" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontColor=#55655D;align=center;" value="No wiring exists between any of the boxes above" vertex="1">
+          <mxGeometry height="20" width="400" x="200" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_lbl_after" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#154F41;align=left;" value="AFTER - orchestrated through the Claims System API" vertex="1">
+          <mxGeometry height="20" width="500" x="20" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_a_claimant" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;" value="Claimant" vertex="1">
+          <mxGeometry height="60" width="60" x="65" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_a_channel" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Channel System&lt;br&gt;(Web Form)" vertex="1">
+          <mxGeometry height="60" width="160" x="15" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_a_analyst" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;" value="Claims Analyst" vertex="1">
+          <mxGeometry height="60" width="60" x="370" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_a_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEAE5;strokeColor=#1F6F5C;strokeWidth=2;fontFamily=Helvetica;fontSize=12;fontStyle=1;arcSize=6;" value="Claims System (UI / API)&lt;br&gt;+ orchestration" vertex="1">
+          <mxGeometry height="80" width="200" x="300" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_a_clientreg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Client Registry System" vertex="1">
+          <mxGeometry height="50" width="180" x="620" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_a_policymgr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Policy Manager System" vertex="1">
+          <mxGeometry height="50" width="180" x="610" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_a_payment" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Payment System&lt;br&gt;(3rd party)" vertex="1">
+          <mxGeometry height="50" width="180" x="610" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_e1" edge="1" parent="1" source="p1_a_claimant" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" target="p1_a_channel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_e2" edge="1" parent="1" source="p1_a_channel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" target="p1_a_claims" value="POST /claims/submit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_e3" edge="1" parent="1" source="p1_a_analyst" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#A8632B;strokeWidth=2;endArrow=block;endFill=1;fontColor=#A8632B;" target="p1_a_claims" value="approve">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_e4" edge="1" parent="1" source="p1_a_claims" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#1F6F5C;strokeWidth=2;endArrow=block;endFill=1;fontColor=#154F41;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.818;exitY=-0.002;exitDx=0;exitDy=0;exitPerimeter=0;" target="p1_a_clientreg" value="validate client">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="430.0000000000001" as="sourcePoint" />
+            <mxPoint x="560" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p1_e5" edge="1" parent="1" source="p1_a_claims" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#1F6F5C;strokeWidth=2;endArrow=block;endFill=1;fontColor=#154F41;" target="p1_a_policymgr" value="validate policy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_e6" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#1F6F5C;strokeWidth=2;endArrow=block;endFill=1;fontColor=#154F41;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="p1_a_payment" value="request payment">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="560.0000000000001" as="sourcePoint" />
+            <mxPoint x="700" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p1_e7" edge="1" parent="1" source="p1_a_payment" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#8A9A92;dashed=1;endArrow=block;endFill=1;fontColor=#55655D;" target="p1_a_claims" value="payment status (async)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="container" name="2 - Container Diagram">
+    <mxGraphModel dx="1988" dy="778" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="920" pageHeight="480" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p2_note" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#8A9A92;align=left;" value="C4 Level 2 - the deployable units, not what&#39;s inside them" vertex="1">
+          <mxGeometry height="18" width="500" x="20" y="8" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_analyst" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;" value="Claims Analyst&lt;br&gt;[Person]" vertex="1">
+          <mxGeometry height="70" width="70" x="240" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_channel" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Channel System&lt;br&gt;(Web Form)&lt;br&gt;[External System]" vertex="1">
+          <mxGeometry height="70" width="160" x="-100" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_alb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="ALB" vertex="1">
+          <mxGeometry height="50" width="90" x="230" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEAE5;strokeColor=#1F6F5C;strokeWidth=2;fontFamily=Helvetica;fontSize=12;fontStyle=1;arcSize=6;" value="Claims API&lt;br&gt;[Container: Spring Boot / ECS Fargate]" vertex="1">
+          <mxGeometry height="90" width="210" x="390" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_rds" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Claim Database&lt;br&gt;[Container: RDS PostgreSQL]" vertex="1">
+          <mxGeometry height="56" width="210" x="390" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_clientreg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Client Registry System&lt;br&gt;[External System]" vertex="1">
+          <mxGeometry height="50" width="220" x="680" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_policymgr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Policy Manager System&lt;br&gt;[External System]" vertex="1">
+          <mxGeometry height="50" width="220" x="680" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_payment" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Payment System&lt;br&gt;(3rd party)&lt;br&gt;[External System]" vertex="1">
+          <mxGeometry height="60" width="220" x="680" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e1" edge="1" parent="1" source="p2_channel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" target="p2_alb" value="HTTPS: POST /claims/submit (JSON)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e2" edge="1" parent="1" source="p2_analyst" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#A8632B;strokeWidth=2;endArrow=block;endFill=1;fontColor=#A8632B;" target="p2_alb" value="HTTPS: dashboard / approve">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e3" edge="1" parent="1" source="p2_alb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" target="p2_api" value="routes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e4" edge="1" parent="1" source="p2_api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" target="p2_rds" value="JDBC: reads / writes claim state">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#1F6F5C;strokeWidth=2;endArrow=block;endFill=1;fontColor=#154F41;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="p2_clientreg" value="validate client">
+          <mxGeometry relative="1" x="0.2319" y="-1" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="490" y="50" />
+              <mxPoint x="675" y="50" />
+            </Array>
+            <mxPoint x="490" y="140" as="sourcePoint" />
+            <mxPoint x="675" y="51" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p2_e6" edge="1" parent="1" source="p2_api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#1F6F5C;strokeWidth=2;endArrow=block;endFill=1;fontColor=#154F41;" target="p2_policymgr" value="validate policy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e7" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#1F6F5C;strokeWidth=2;endArrow=block;endFill=1;fontColor=#154F41;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="p2_payment" value="request payment">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="599.9999999999998" y="200" as="sourcePoint" />
+            <mxPoint x="790.030303030303" y="265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p2_e8" edge="1" parent="1" source="p2_payment" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#8A9A92;dashed=1;endArrow=block;endFill=1;fontColor=#55655D;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="p2_alb" value="webhook: POST /claims/id/payment-callback (signed)">
+          <mxGeometry relative="1" x="-0.0728" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="790" y="380" />
+              <mxPoint x="275" y="380" />
+            </Array>
+            <mxPoint x="695" y="410.0000000000001" as="sourcePoint" />
+            <mxPoint x="290" y="410.0000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="component" name="3 - Component Diagram">
+    <mxGraphModel dx="1157" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="920" pageHeight="480" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p3_boundary" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#8A9A92;dashed=1;arcSize=4;verticalAlign=top;align=left;fontFamily=Helvetica;fontSize=11;fontColor=#8A9A92;spacingLeft=8;spacingTop=6;" value="CLAIMS API - [Container: Spring Boot]" vertex="1">
+          <mxGeometry height="380" width="510" x="30" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_controller" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Controller&lt;br&gt;REST endpoints" vertex="1">
+          <mxGeometry height="52" width="180" x="60" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_listener" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="PaymentWebhookController&lt;br&gt;verifies signature" vertex="1">
+          <mxGeometry height="52" width="180" x="340" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_orch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEAE5;strokeColor=#1F6F5C;strokeWidth=2;fontFamily=Helvetica;fontSize=12;fontStyle=1;arcSize=6;" value="Orchestrator&lt;br&gt;claim state machine +&lt;br&gt;payment webhook idempotency" vertex="1">
+          <mxGeometry height="80" width="180" x="60" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_repo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=12;arcSize=6;" value="Claim Repository&lt;br&gt;Spring Data JPA" vertex="1">
+          <mxGeometry height="52" width="180" x="60" y="316" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_adClient" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="ClientRegistryClient" vertex="1">
+          <mxGeometry height="40" width="200" x="280" y="62" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_adPolicy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="PolicyManagerClient" vertex="1">
+          <mxGeometry height="40" width="200" x="290" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_adPayment" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="PaymentClient" vertex="1">
+          <mxGeometry height="40" width="200" x="290" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_extClient" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Client Registry System&lt;br&gt;[External System]" vertex="1">
+          <mxGeometry height="46" width="220" x="650" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_extPolicy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Policy Manager System&lt;br&gt;[External System]" vertex="1">
+          <mxGeometry height="46" width="220" x="650" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_extPayment" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Payment System (3rd party)&lt;br&gt;[External System]" vertex="1">
+          <mxGeometry height="46" width="220" x="650" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_rds" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Claim Database&lt;br&gt;[Container: RDS PostgreSQL]" vertex="1">
+          <mxGeometry height="46" width="220" x="650" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_note" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#8A9A92;align=left;" value="C4 Level 3 - inside the Claims API container only; boxes on the right are containers / systems defined elsewhere, shown here only as call targets" vertex="1">
+          <mxGeometry height="30" width="860" x="20" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e1" edge="1" parent="1" source="p3_controller" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_orch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e1b" edge="1" parent="1" source="p3_listener" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_orch" value="update claim status">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e2" edge="1" parent="1" source="p3_orch" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_adClient">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e3" edge="1" parent="1" source="p3_orch" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_adPolicy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e4" edge="1" parent="1" source="p3_orch" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_adPayment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e5" edge="1" parent="1" source="p3_orch" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_repo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e6" edge="1" parent="1" source="p3_repo" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_rds">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e7" edge="1" parent="1" source="p3_adClient" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_extClient">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e8" edge="1" parent="1" source="p3_adPolicy" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_extPolicy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e9" edge="1" parent="1" source="p3_adPayment" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;" target="p3_extPayment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e10" edge="1" parent="1" source="p3_extPayment" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#8A9A92;dashed=1;endArrow=block;endFill=1;fontColor=#55655D;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="p3_listener" value="webhook: payment-callback (signed)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sequence" name="4 - Claim Sequence">
+    <mxGraphModel dx="1262" dy="920" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="960" pageHeight="560" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p4_h1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Channel System&lt;br&gt;(Web Form)" vertex="1">
+          <mxGeometry height="42" width="130" x="15" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_h2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEAE5;strokeColor=#1F6F5C;strokeWidth=2;fontFamily=Helvetica;fontSize=11;fontStyle=1;arcSize=6;" value="Claims System API" vertex="1">
+          <mxGeometry height="42" width="130" x="181" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_h3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Client Registry" vertex="1">
+          <mxGeometry height="42" width="130" x="347" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_h4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Policy Manager" vertex="1">
+          <mxGeometry height="42" width="130" x="513" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_h5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#55655D;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Claims Analyst" vertex="1">
+          <mxGeometry height="42" width="130" x="679" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_h6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EFEC;strokeColor=#9FB0A8;fontFamily=Helvetica;fontSize=11;arcSize=6;" value="Payment System&lt;br&gt;(3rd party)" vertex="1">
+          <mxGeometry height="42" width="130" x="845" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_l1" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#9FB0A8;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="56" as="sourcePoint" />
+            <mxPoint x="80" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_l2" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#9FB0A8;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="246" y="56" as="sourcePoint" />
+            <mxPoint x="246" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_l3" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#9FB0A8;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="412" y="56" as="sourcePoint" />
+            <mxPoint x="412" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_l4" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#9FB0A8;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="578" y="56" as="sourcePoint" />
+            <mxPoint x="578" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_l5" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#9FB0A8;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="744" y="56" as="sourcePoint" />
+            <mxPoint x="744" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_l6" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#9FB0A8;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="910" y="56" as="sourcePoint" />
+            <mxPoint x="910" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_a1" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" value="POST /claims/submit (json)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="92" as="sourcePoint" />
+            <mxPoint x="246" y="92" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_n1" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#154F41;align=left;" value="SUBMITTED" vertex="1">
+          <mxGeometry height="16" width="150" x="252" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_a2" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" value="validateClient(clientId, name, idNo)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="246" y="150" as="sourcePoint" />
+            <mxPoint x="412" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_a3" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#8A9A92;dashed=1;endArrow=block;endFill=1;fontColor=#55655D;" value="verdict: valid + reason">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="412" y="188" as="sourcePoint" />
+            <mxPoint x="246" y="188" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_n2" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#154F41;align=left;" value="CLIENT_VALIDATED" vertex="1">
+          <mxGeometry height="16" width="180" x="252" y="194" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_a4" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" value="validatePolicy(policyNo, clientId, type, amt)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="246" y="248" as="sourcePoint" />
+            <mxPoint x="578" y="248" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_a5" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#8A9A92;dashed=1;endArrow=block;endFill=1;fontColor=#55655D;" value="verdict: valid + reason">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="578" y="286" as="sourcePoint" />
+            <mxPoint x="246" y="286" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_n3" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#154F41;align=left;" value="POLICY_VALIDATED" vertex="1">
+          <mxGeometry height="16" width="180" x="252" y="292" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_a6" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#A8632B;strokeWidth=2;endArrow=block;endFill=1;fontColor=#A8632B;" value="visible via GET /claims/queue (poll)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="246" y="344" as="sourcePoint" />
+            <mxPoint x="744" y="344" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_n4" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#A8632B;align=left;" value="PENDING_ANALYST_APPROVAL" vertex="1">
+          <mxGeometry height="16" width="230" x="252" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_a7" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#A8632B;strokeWidth=2;endArrow=block;endFill=1;fontColor=#A8632B;" value="POST /claims/id/approve">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="744" y="384" as="sourcePoint" />
+            <mxPoint x="246" y="384" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_a8" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#55655D;endArrow=block;endFill=1;fontColor=#55655D;" value="requestPayment(claimId, amount)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="246" y="432" as="sourcePoint" />
+            <mxPoint x="910" y="432" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_n5" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=10;fontStyle=1;fontColor=#154F41;align=left;" value="PAYMENT_REQUESTED" vertex="1">
+          <mxGeometry height="16" width="200" x="252" y="438" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_a9" edge="1" parent="1" style="html=1;fontFamily=Helvetica;fontSize=10;strokeColor=#8A9A92;dashed=1;endArrow=block;endFill=1;fontColor=#55655D;" value="webhook: payment-callback (signed)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="910" y="480" as="sourcePoint" />
+            <mxPoint x="246" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p4_n6" parent="1" style="text;html=1;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#154F41;align=left;" value="PAID" vertex="1">
+          <mxGeometry height="18" width="100" x="252" y="486" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

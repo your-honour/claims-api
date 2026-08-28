@@ -1,0 +1,999 @@
+{
+  "info": {
+    "name": "Claims API",
+    "description": "Manual test collection for the Claims Processing case study. Run requests top-to-bottom within a folder \u2014 each folder captures a full scenario and chains the claim id via collection variables. Note: client/policy validation is performed by the Client Registry and Policy Manager mock adapters (verdict-returning, per the brief), not by the Claims API itself. Duplicate-claim handling has two separate mechanisms (folder 4): the Idempotency-Key request header resolves an accidental resend of the exact same submission to the same claim, while possibleDuplicateOfClaimId is a non-blocking flag for the analyst when another claim matches on policy + claim type + incident date \u2014 no database uniqueness constraint backs this, since a policy can have multiple legitimate claims.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "webhook_secret",
+      "value": "dummy-shared-secret-change-me",
+      "type": "string"
+    },
+    {
+      "key": "claim_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rejected_claim_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "declined_claim_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "webhook_event_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "webhook_signature",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "idempotent_claim_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "duplicate_first_claim_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Health check",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/actuator/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "actuator",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "1. Happy path (submit \u2192 approve \u2192 pay)",
+      "item": [
+        {
+          "name": "1.1 Submit DEATH claim (HIGH priority)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('claim_id', body.id);",
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('priority is HIGH', () => pm.expect(body.priority).to.eql('HIGH'));",
+                  "pm.test('status is PENDING_ANALYST_APPROVAL', () => pm.expect(body.status).to.eql('PENDING_ANALYST_APPROVAL'));",
+                  "pm.test('claimReference is human-readable (CLM-######)', () => pm.expect(body.claimReference).to.match(/^CLM-\\d{6,}$/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-1001\", \"claimantFullName\": \"Registered Client CL-1001\", \"claimantIdNumber\": \"ID-CL-1001\", \"policyNumber\": \"POL-CL-1001\", \"claimType\": \"DEATH\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 100000.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.2 Get claim by id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.3 Get analyst queue (HIGH first)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/claims/queue",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "queue"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.4 Approve claim",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('status is PAYMENT_REQUESTED', () => pm.expect(body.status).to.eql('PAYMENT_REQUESTED'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"analystId\": \"analyst-1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}",
+                "approve"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.5 Approve again (expect 409 - already actioned)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('409 Conflict', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"analystId\": \"analyst-1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}",
+                "approve"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.6 Payment webhook - SUCCESSFUL (signed)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const eventId = 'evt-' + Date.now();",
+                  "const claimId = pm.collectionVariables.get('claim_id');",
+                  "const outcome = 'SUCCESSFUL';",
+                  "const secret = pm.collectionVariables.get('webhook_secret');",
+                  "const payload = `${eventId}:${claimId}:${outcome}`;",
+                  "const signature = CryptoJS.HmacSHA256(payload, secret).toString(CryptoJS.enc.Hex);",
+                  "pm.collectionVariables.set('webhook_event_id', eventId);",
+                  "pm.collectionVariables.set('webhook_signature', signature);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Payment-Signature",
+                "value": "{{webhook_signature}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"{{webhook_event_id}}\",\n  \"claimId\": \"{{claim_id}}\",\n  \"outcome\": \"SUCCESSFUL\",\n  \"providerPaymentReference\": \"PROV-REF-9\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}/payment-callback",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}",
+                "payment-callback"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.7 Redeliver same webhook event (idempotent - still 200, no double-apply)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Payment-Signature",
+                "value": "{{webhook_signature}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"{{webhook_event_id}}\",\n  \"claimId\": \"{{claim_id}}\",\n  \"outcome\": \"SUCCESSFUL\",\n  \"providerPaymentReference\": \"PROV-REF-9\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}/payment-callback",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}",
+                "payment-callback"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.8 Get claim - status PAID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('status is PAID', () => pm.expect(body.status).to.eql('PAID'));",
+                  "pm.test('paymentReference set', () => pm.expect(body.paymentReference).to.eql('PROV-REF-9'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.9 Get all claims (still finds it, unlike the queue)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "const paidClaim = body.find(c => c.id === pm.collectionVariables.get('claim_id'));",
+                  "pm.test('paid claim is present in the full list', () => pm.expect(paidClaim).to.not.be.undefined);",
+                  "pm.test('paid claim status is PAID', () => pm.expect(paidClaim.status).to.eql('PAID'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/claims",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Rejection paths (validation)",
+      "item": [
+        {
+          "name": "2.1 Inactive client",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('status is REJECTED', () => pm.expect(body.status).to.eql('REJECTED'));",
+                  "pm.test('reason mentions not active', () => pm.expect(body.rejectionReason).to.include('not active'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"INACTIVE-CL-9001\", \"claimantFullName\": \"Whoever\", \"claimantIdNumber\": \"Whatever\", \"policyNumber\": \"POL-INACTIVE-CL-9001\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 500.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.2 Expired policy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('status is REJECTED', () => pm.expect(body.status).to.eql('REJECTED'));",
+                  "pm.test('reason mentions not active', () => pm.expect(body.rejectionReason).to.include('not active'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-2002\", \"claimantFullName\": \"Registered Client CL-2002\", \"claimantIdNumber\": \"ID-CL-2002\", \"policyNumber\": \"EXPIRED-POL-CL-2002\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 500.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.3 Claimant name mismatch",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('status is REJECTED', () => pm.expect(body.status).to.eql('REJECTED'));",
+                  "pm.test('reason mentions name does not match', () => pm.expect(body.rejectionReason).to.include('name does not match'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-2004\", \"claimantFullName\": \"Someone Else Entirely\", \"claimantIdNumber\": \"ID-CL-2004\", \"policyNumber\": \"POL-CL-2004\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 500.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.4 Claimed amount exceeds benefit limit",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('status is REJECTED', () => pm.expect(body.status).to.eql('REJECTED'));",
+                  "pm.test('reason mentions benefit limit', () => pm.expect(body.rejectionReason).to.include('benefit limit'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-2003\", \"claimantFullName\": \"Registered Client CL-2003\", \"claimantIdNumber\": \"ID-CL-2003\", \"policyNumber\": \"POL-CL-2003\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 999999.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.5 Missing required fields (expect 400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"\", \"claimantFullName\": \"\", \"claimantIdNumber\": \"\", \"policyNumber\": \"\", \"claimType\": \"DEATH\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 100}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Analyst reject path",
+      "item": [
+        {
+          "name": "3.1 Submit claim to reject",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('rejected_claim_id', body.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-3001\", \"claimantFullName\": \"Registered Client CL-3001\", \"claimantIdNumber\": \"ID-CL-3001\", \"policyNumber\": \"POL-CL-3001\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 500.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.2 Reject claim (e.g. suspected fraud)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('status is REJECTED', () => pm.expect(body.status).to.eql('REJECTED'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Suspected fraud - flagged for manual review\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{rejected_claim_id}}/reject",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{rejected_claim_id}}",
+                "reject"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Idempotency & duplicate detection",
+      "item": [
+        {
+          "name": "4.1 Submit claim with idempotency key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('idempotent_claim_id', body.id);",
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "postman-demo-key-1"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-6001\", \"claimantFullName\": \"Registered Client CL-6001\", \"claimantIdNumber\": \"ID-CL-6001\", \"policyNumber\": \"POL-CL-6001\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 500.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.2 Resubmit same idempotency key (returns the same claim, not a new one)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('same claim id as 4.1', () => pm.expect(body.id).to.eql(pm.collectionVariables.get('idempotent_claim_id')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "postman-demo-key-1"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-6001\", \"claimantFullName\": \"Registered Client CL-6001\", \"claimantIdNumber\": \"ID-CL-6001\", \"policyNumber\": \"POL-CL-6001\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 500.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.3 Submit claim (policy + claim type + incident date A)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('duplicate_first_claim_id', body.id);",
+                  "pm.test('no duplicate flagged on the first submission', () => pm.expect(body.possibleDuplicateOfClaimId).to.be.null);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-7001\", \"claimantFullName\": \"Registered Client CL-7001\", \"claimantIdNumber\": \"ID-CL-7001\", \"policyNumber\": \"POL-CL-7001\", \"claimType\": \"CRITICAL_ILLNESS\", \"incidentDate\": \"2026-06-15\", \"claimedAmount\": 800.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.4 Submit a second, separate claim - same policy/type/incident date, no idempotency key",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('201 Created - not blocked', () => pm.response.to.have.status(201));",
+                  "pm.test('status still reaches PENDING_ANALYST_APPROVAL', () => pm.expect(body.status).to.eql('PENDING_ANALYST_APPROVAL'));",
+                  "pm.test('flagged as possible duplicate of 4.3', () => pm.expect(body.possibleDuplicateOfClaimId).to.eql(pm.collectionVariables.get('duplicate_first_claim_id')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"CL-7001\", \"claimantFullName\": \"Registered Client CL-7001\", \"claimantIdNumber\": \"ID-CL-7001\", \"policyNumber\": \"POL-CL-7001\", \"claimType\": \"CRITICAL_ILLNESS\", \"incidentDate\": \"2026-06-15\", \"claimedAmount\": 800.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Payment declined path",
+      "item": [
+        {
+          "name": "5.1 Submit claim (DECLINE- convention)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('declined_claim_id', body.id);",
+                  "pm.test('status is PENDING_ANALYST_APPROVAL', () => pm.expect(body.status).to.eql('PENDING_ANALYST_APPROVAL'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"clientId\": \"DECLINE-CL-5001\", \"claimantFullName\": \"Registered Client DECLINE-CL-5001\", \"claimantIdNumber\": \"ID-DECLINE-CL-5001\", \"policyNumber\": \"POL-DECLINE-CL-5001\", \"claimType\": \"MEDICAL\", \"incidentDate\": \"2026-08-01\", \"claimedAmount\": 500.0}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "5.2 Approve - Payment System declines, claim REJECTED",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('status is REJECTED', () => pm.expect(body.status).to.eql('REJECTED'));",
+                  "pm.test('reason mentions Payment System declined', () => pm.expect(body.rejectionReason).to.include('Payment System declined'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"analystId\": \"analyst-1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{declined_claim_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{declined_claim_id}}",
+                "approve"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Error / negative cases",
+      "item": [
+        {
+          "name": "6.1 Get claim - not found (expect 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('404 Not Found', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/claims/00000000-0000-0000-0000-000000000000",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "00000000-0000-0000-0000-000000000000"
+              ]
+            }
+          }
+        },
+        {
+          "name": "6.2 Payment webhook - wrong signature (expect 401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Payment-Signature",
+                "value": "not-the-real-signature"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"evt-bad-sig\",\n  \"claimId\": \"{{claim_id}}\",\n  \"outcome\": \"SUCCESSFUL\",\n  \"providerPaymentReference\": \"PROV-REF-X\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}/payment-callback",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}",
+                "payment-callback"
+              ]
+            }
+          }
+        },
+        {
+          "name": "6.3 Payment webhook - missing signature header (expect 400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"evt-no-sig\",\n  \"claimId\": \"{{claim_id}}\",\n  \"outcome\": \"SUCCESSFUL\",\n  \"providerPaymentReference\": \"PROV-REF-X\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/claims/{{claim_id}}/payment-callback",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "claims",
+                "{{claim_id}}",
+                "payment-callback"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

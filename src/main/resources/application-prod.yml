@@ -1,0 +1,18 @@
+# Target production configuration - the ECS Fargate task's env vars supply
+# the datasource credentials and the real webhook secret via Secrets
+# Manager, per the Container diagram. Not exercised by the sample/test
+# suite; included to show the intended deployment shape.
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+claims:
+  payment:
+    webhook-secret: ${PAYMENT_WEBHOOK_SECRET}

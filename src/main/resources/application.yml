@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: claims-api
+
+  # No profile activated => behaves as "local" (see below), so a reviewer
+  # can run this with zero flags/env vars and get a working, self-contained
+  # instance. Set SPRING_PROFILES_ACTIVE (or -Dspring.profiles.active) to
+  # switch environments, e.g. `-Dspring.profiles.active=prod`.
+  #
+  # Per-environment settings live in application-<profile>.yml:
+  #   application-local.yml - in-memory H2, zero external setup (default)
+  #   application-prod.yml  - RDS PostgreSQL, secrets from env vars
+  #
+  # Add further environments (e.g. application-qa.yml) the same way and
+  # activate them with spring.profiles.active=qa - nothing here needs to
+  # change.
+  profiles:
+    default: local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.insurer.claims: INFO
